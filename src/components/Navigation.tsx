@@ -185,8 +185,9 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
           <button
             onClick={() => handleLinkClick('articles')}
             className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'articles' || currentPage.startsWith('article-') ? 'text-brand-600 font-semibold' : ''}`}
+            id="nav-link-article-hub"
           >
-            Advice Hub
+            Article Hub
           </button>
 
           <button
@@ -241,8 +242,9 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
             <button
               onClick={() => handleLinkClick('articles')}
               className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-200 block"
+              id="mobile-nav-link-article-hub"
             >
-              Advice Hub (20 Articles)
+              Article Hub (20 Articles)
             </button>
           </div>
 

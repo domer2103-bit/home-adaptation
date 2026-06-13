@@ -104,8 +104,9 @@ export default function Footer({ onNavigate, allServices, allCities }: FooterPro
               <button
                 onClick={() => onNavigate('articles')}
                 className="hover:text-white text-md transition hover:underline text-left block font-bold text-brand-400"
+                id="footer-link-article-hub"
               >
-                Advice & Articles Hub (20 Guides)
+                Article Hub (20 Articles)
               </button>
             </li>
           </ul>
