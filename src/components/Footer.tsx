@@ -95,9 +95,17 @@ export default function Footer({ onNavigate, allServices, allCities }: FooterPro
             <li>
               <button
                 onClick={() => onNavigate('contact')}
-                className="hover:text-white transition hover:underline text-left block font-medium"
+                className="hover:text-white transition hover:underline text-left block"
               >
                 VAT Exemption 20% Discount Steps
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onNavigate('articles')}
+                className="hover:text-white text-md transition hover:underline text-left block font-bold text-brand-400"
+              >
+                Advice & Articles Hub (20 Guides)
               </button>
             </li>
           </ul>

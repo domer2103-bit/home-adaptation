@@ -36,10 +36,13 @@ import { ServiceId, Service, FundingGuide, CityData } from './types';
 import { servicesData } from './data/services';
 import { fundingGuidesData, generalFaqData } from './data/funding';
 import { citiesData } from './data/cities';
+import { articlesData, Article } from './data/articles';
 import Navigation from './components/Navigation';
 import CallbackForm from './components/CallbackForm';
 import LeadCalculator from './components/LeadCalculator';
 import Footer from './components/Footer';
+import ArticlesHub from './components/ArticlesHub';
+import ArticleDetail from './components/ArticleDetail';
 
 // Dynamic Icon Resolver Helper
 function getServiceIcon(iconName: string, className = "w-6 h-6 text-brand-600") {
@@ -106,6 +109,16 @@ export default function App() {
         title = `Expert Home Adaptations in ${city.name} | Wet Rooms & Stairlifts`;
         metaDesc = `Accredited stairlifts, wet rooms, and bathroom adjustments in ${city.name}, ${city.region}. Free ${city.councilName} OT helper guide.`;
       }
+    } else if (currentPage === 'articles') {
+      title = 'UK Independent Living Advice & Articles Hub | Home Adaptations';
+      metaDesc = 'Read our 20 comprehensive home adaptation articles, guides, and costs breakdown for senior citizens, therapists, and disabled individuals in the UK.';
+    } else if (currentPage.startsWith('article-')) {
+      const artId = currentPage.replace('article-', '');
+      const article = articlesData.find(a => a.id === artId);
+      if (article) {
+        title = `${article.title} | UK Mobility Advice`;
+        metaDesc = article.shortDesc;
+      }
     } else if (currentPage === 'contact') {
       title = 'Request Free Advisory Callback - Contact Home Adaptations UK';
     }
@@ -146,6 +159,8 @@ export default function App() {
         {currentPage.startsWith('service-') && renderServiceSubpage()}
         {currentPage.startsWith('funding-') && renderFundingSubpage()}
         {currentPage.startsWith('city-') && renderCitySubpage()}
+        {currentPage === 'articles' && renderArticlesHub()}
+        {currentPage.startsWith('article-') && renderArticleSubpage()}
         {currentPage === 'contact' && renderContactPage()}
       </main>
 
@@ -1069,6 +1084,27 @@ export default function App() {
           </div>
         </div>
       </div>
+    );
+  }
+
+  // 5.5. ARTICLES LIST PAGE
+  function renderArticlesHub() {
+    return (
+      <ArticlesHub 
+        articles={articlesData}
+        onNavigate={handleNavigate}
+      />
+    );
+  }
+
+  // 5.6. ARTICLE SUBPAGE DETAIL READER
+  function renderArticleSubpage() {
+    const artId = currentPage.replace('article-', '');
+    return (
+      <ArticleDetail 
+        articleId={artId}
+        onNavigate={handleNavigate}
+      />
     );
   }
 

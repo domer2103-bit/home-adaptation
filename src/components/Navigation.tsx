@@ -183,6 +183,13 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
           </div>
 
           <button
+            onClick={() => handleLinkClick('articles')}
+            className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'articles' || currentPage.startsWith('article-') ? 'text-brand-600 font-semibold' : ''}`}
+          >
+            Advice Hub
+          </button>
+
+          <button
             onClick={() => handleLinkClick('contact')}
             className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'contact' ? 'text-brand-600 font-semibold' : ''}`}
           >
@@ -230,6 +237,12 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
               className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-brand-600 hover:bg-slate-200 block"
             >
               Services Overview
+            </button>
+            <button
+              onClick={() => handleLinkClick('articles')}
+              className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-200 block"
+            >
+              Advice Hub (20 Articles)
             </button>
           </div>
 
