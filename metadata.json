@@ -1,0 +1,6 @@
+{
+  "name": "Home Adaptations UK",
+  "description": "UK Lead Generation and Guide for Disabled Facilities Grants (DFG), Wet Rooms, Stairlifts & Home Adaptations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
