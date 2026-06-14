@@ -181,11 +181,11 @@ export default function ArticleDetail({ articleId, onNavigate }: ArticleDetailPr
               <span className="text-[9px] uppercase font-bold text-slate-400 tracking-wider block">Have urgent clinical questions?</span>
               <p className="text-xs text-slate-300">Free independent advice for UK homeowner households & caring relatives.</p>
               <a 
-                href="tel:08000123456" 
+                href="tel:+447899030990" 
                 className="inline-flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white w-full py-3 rounded-lg border border-slate-700 transition"
               >
                 <Phone className="w-4 h-4 text-emerald-400" />
-                <span className="text-xs font-bold">Call Free: 0800 012 3456</span>
+                <span className="text-xs font-bold">Call: +44 78 990 30 990</span>
               </a>
             </div>
           </aside>

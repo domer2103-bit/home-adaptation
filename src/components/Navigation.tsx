@@ -202,13 +202,13 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
         <div className="flex items-center space-x-3">
           {/* Quick Click-to-Call Link */}
           <a
-            href="tel:08000123456"
+            href="tel:+447899030990"
             className="flex items-center space-x-2 bg-emerald-50 text-emerald-800 px-4 py-2 border border-emerald-200 rounded-full hover:bg-emerald-100 transition-smooth font-bold text-sm tracking-wide shadow-sm"
             id="quick-call-link"
           >
             <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="hidden sm:inline">Free Advice Line:</span>
-            <span>0800 012 3456</span>
+            <span className="hidden sm:inline">Advice Line:</span>
+            <span>+44 78 990 30 990</span>
           </a>
 
           {/* Mobile Menu Icon */}

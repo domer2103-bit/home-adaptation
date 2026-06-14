@@ -200,15 +200,15 @@ export default function App() {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 text-white p-3 z-40 flex items-center justify-between shadow-[0_-4px_10px_rgba(0,0,0,0.15)]">
         <div className="text-left pl-2">
           <p className="text-[10px] text-brand-400 font-bold uppercase tracking-wider">Independent Advice Line</p>
-          <p className="text-sm font-extrabold text-white">0800 012 3456</p>
+          <p className="text-sm font-extrabold text-white">+44 78 990 30 990</p>
         </div>
         <a
-          href="tel:08000123456"
+          href="tel:+447899030990"
           className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black py-2.5 px-4 rounded-full flex items-center space-x-1.5 shadow"
           id="sticky-mobile-call-link"
         >
           <Phone className="w-4 h-4 shrink-0" />
-          <span>Tap to Call Free</span>
+          <span>Tap to Call</span>
         </a>
       </div>
     </div>
@@ -248,11 +248,11 @@ export default function App() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <a
-                  href="tel:08000123456"
+                  href="tel:+447899030990"
                   className="bg-slate-800/80 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-sm border border-slate-700 transition duration-150 flex items-center justify-center space-x-2"
                 >
                   <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Call free: 0800 012 3456</span>
+                  <span>Call: +44 78 990 30 990</span>
                 </a>
               </div>
 
@@ -618,11 +618,11 @@ export default function App() {
                 Configure Your Free Home Survey
               </button>
               <a
-                href="tel:08000123456"
+                href="tel:+447899030990"
                 className="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-8 py-3.5 rounded-xl text-xs transition duration-150 border border-slate-700 flex items-center justify-center space-x-1"
               >
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Advice Helpline: 0800 012 3456</span>
+                <span>Advice Helpline: +44 78 990 30 990</span>
               </a>
             </div>
           </div>
@@ -1135,8 +1135,8 @@ export default function App() {
                   <Phone className="w-6 h-6 shrink-0" />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-brand-400 tracking-wider">Freephone National Advice</span>
-                  <a href="tel:08000123456" className="text-2xl font-black hover:text-brand-300 block mt-1">0800 012 3456</a>
+                  <span className="text-[10px] uppercase font-bold text-brand-400 tracking-wider">National Advice Line</span>
+                  <a href="tel:+447899030990" className="text-2xl font-black hover:text-brand-300 block mt-1">+44 78 990 30 990</a>
                   <p className="text-xs text-slate-400 mt-1">Lines active: Monday to Friday 8:30am - 6:30pm | Saturday 9:00am - 12:30pm</p>
                 </div>
               </div>
