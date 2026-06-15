@@ -233,7 +233,7 @@ export default function App() {
                 <span>Eradicating Bathroom & Staircase Slip Hazards</span>
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-black font-display tracking-tight text-white leading-tight">
-                Maintain Your Independence at Home with Certified Adaptations
+                Empowering Independence with Home Adaptation for Disabled & Elderly
               </h1>
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
                 We simplify finding state-of-the-art stairlifts, flush wet rooms, worktop adjusters, and level entrance ramps. Check your eligibility for standard council funding grants up to <strong className="text-white">£30,000</strong>.
@@ -298,7 +298,7 @@ export default function App() {
         <section className="py-16 md:py-24 bg-white" id="calculator-lead-funnel">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold font-display text-slate-900 tracking-tight">Check Your Home Adaptation Grant Eligibility</h2>
+              <h2 className="text-2xl md:text-3xl font-bold font-display text-slate-900 tracking-tight">Check Your Home Adaptation for Disabled Grant Eligibility</h2>
               <p className="text-xs sm:text-sm text-slate-500 mt-2">Use our structured questionnaire to review potential UK council funding allowances and VAT relief exemptions instantly.</p>
             </div>
             <LeadCalculator
@@ -314,7 +314,7 @@ export default function App() {
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
               <div className="text-left max-w-xl">
                 <span className="text-xs font-extrabold uppercase text-brand-600 tracking-widest block mb-1">Safety-Assured Renovations</span>
-                <h2 className="text-2xl md:text-3.5xl font-semibold font-display text-slate-900 tracking-tight">Our 10 Core Home Adaptations</h2>
+                <h2 className="text-2xl md:text-3.5xl font-semibold font-display text-slate-900 tracking-tight">Expert Home Adaptations & Wheelchair Adapted Home Solutions</h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-2">Engineered to standards set by the British Standard Code of Practice for Accessibility design (BS 8300).</p>
               </div>
               <button

@@ -22,7 +22,7 @@ export const servicesData: Service[] = [
     installDays: '1 Day (Standard Straight)',
     eligibilityInfo: 'Highly recommended by Occupational Therapists; frequently 100% funded via the Disabled Facilities Grant (DFG).',
     iconName: 'ChevronUpSquare',
-    seoKeywords: ['stairlift installers UK', 'curved stairlifts price', 'straight stairlift cost', 'stairlifts for elderly']
+    seoKeywords: ['home adaptation for disabled', 'stairlifts for elderly', 'stairlift installers UK', 'curved stairlifts price']
   },
   {
     id: 'wet-rooms',
@@ -45,7 +45,7 @@ export const servicesData: Service[] = [
     installDays: '4 - 7 Days',
     eligibilityInfo: 'The main adaptation requested under the Disabled Facilities Grant (DFG). 100% means-tested funding is available via local UK councils.',
     iconName: 'ShowerHead',
-    seoKeywords: ['wet room specialists UK', 'disabled wet room installation', 'level access wetroom', 'walk-in wet room cost']
+    seoKeywords: ['wheelchair adapted home', 'home adaptations disabled', 'wet room specialists UK', 'disabled wet room installation']
   },
   {
     id: 'walk-in-showers',
@@ -114,7 +114,7 @@ export const servicesData: Service[] = [
     installDays: '1 Day',
     eligibilityInfo: 'Directly funded via local authority minor adapt pathways or comprehensive DFG grants. Safe accessibility at the primary door is a priority criterion.',
     iconName: 'Layers',
-    seoKeywords: ['wheelchair ramps UK', 'modular ramp systems', 'disabled entrance ramp cost', 'metal garden ramps']
+    seoKeywords: ['home adaptations for wheelchair users', 'wheelchair ramps UK', 'modular ramp systems', 'disabled entrance ramp cost']
   },
   {
     id: 'door-widening',
