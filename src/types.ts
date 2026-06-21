@@ -1,14 +1,7 @@
 export type ServiceId =
-  | 'stairlifts'
-  | 'wet-rooms'
   | 'walk-in-showers'
-  | 'grab-rails'
-  | 'ramps'
-  | 'door-widening'
-  | 'bathroom-adaptations'
-  | 'kitchen-adaptations'
-  | 'through-floor-lifts'
-  | 'level-access-showers';
+  | 'stairlifts'
+  | 'ramps';
 
 export interface Service {
   id: ServiceId;

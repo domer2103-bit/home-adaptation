@@ -18,9 +18,8 @@ export default function LeadCalculator({ onSelectedAdaptation, onRequestCallback
 
   const physicalOptions = [
     { id: 'stairs', label: 'Struggling to climb stairs or change building levels', srv: 'stairlifts' },
-    { id: 'bathing', label: 'Difficulty stepping into standard bathtubs or high shower trays', srv: 'wet-rooms' },
-    { id: 'steps', label: 'Negotiating high doorways or raised entry patio thresholds', srv: 'ramps' },
-    { id: 'cooking', label: 'Difficulty reaching kitchen hobs, countertops, or high cabinets', srv: 'kitchen-adaptations' }
+    { id: 'bathing', label: 'Difficulty stepping into standard bathtubs or high shower trays', srv: 'walk-in-showers' },
+    { id: 'steps', label: 'Negotiating high doorways or raised entry patio thresholds', srv: 'ramps' }
   ];
 
   const ownershipOptions = [

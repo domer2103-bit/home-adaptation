@@ -1,222 +1,80 @@
-import React, { useState } from 'react';
-import { Phone, Menu, X, ChevronDown, ShieldCheck, HelpCircle, FileText, MapPin, Activity } from 'lucide-react';
+import { useState } from 'react';
+import { Phone, Menu, X, Activity } from 'lucide-react';
 import { ServiceId } from '../types';
 
 interface NavigationProps {
   currentPage: string;
   onNavigate: (page: string, params?: any) => void;
   allServices: { id: ServiceId; title: string }[];
-  allCities: { id: string; name: string }[];
 }
 
-export default function Navigation({ currentPage, onNavigate, allServices, allCities }: NavigationProps) {
+export default function Navigation({ currentPage, onNavigate, allServices }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [servicesDropdown, setServicesDropdown] = useState(false);
-  const [citiesDropdown, setCitiesDropdown] = useState(false);
-  const [helpDropdown, setHelpDropdown] = useState(false);
 
   const handleLinkClick = (page: string, params?: any) => {
     onNavigate(page, params);
     setIsOpen(false);
-    setServicesDropdown(false);
-    setCitiesDropdown(false);
-    setHelpDropdown(false);
   };
+
+  const menuItems = [
+    { label: 'Home', page: 'home' },
+    { label: 'Walk-in Showers', page: 'service-walk-in-showers' },
+    { label: 'Stairlifts', page: 'service-stairlifts' },
+    { label: 'Ramps', page: 'service-ramps' },
+    { label: 'Areas We Cover', page: 'areas' },
+    { label: 'Contact', page: 'contact' },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm" id="main-nav-header">
-      {/* Top Warning/Trust Bar */}
-      <div className="w-full bg-slate-900 text-slate-100 py-2 px-4 text-xs font-semibold flex flex-wrap justify-between items-center sm:px-6">
-        <div className="flex items-center space-x-2 text-slate-300">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>UK Government VAT Exemption: Save 20% on all qualified disability adaptations</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-4">
-          <span className="text-slate-400">Vetted & Checked Installers</span>
-          <span className="text-emerald-400">★ ★ ★ ★ ★ TrustScore 4.9/5</span>
-        </div>
+      {/* Top Trust Bar */}
+      <div className="w-full bg-slate-900 text-slate-300 py-1.5 px-4 text-[10px] font-bold uppercase tracking-widest text-center sm:px-6">
+        Serving Liverpool, Wirral, Sefton, Knowsley, and surrounding areas
       </div>
 
-      {/* Main Bar */}
-      <div className="max-w-7xl mx-auto px-4 h-18 sm:px-6 lg:px-8 flex justify-between items-center bg-white">
+      <div className="max-w-7xl mx-auto px-4 h-20 sm:px-6 lg:px-8 flex justify-between items-center bg-white">
         {/* Branding */}
         <button
           onClick={() => handleLinkClick('home')}
-          className="flex items-center space-x-2 text-left focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-lg p-1"
+          className="flex items-center space-x-2 text-left focus:outline-none"
           id="branding-logo-btn"
         >
-          <div className="bg-brand-600 text-white p-2 rounded-lg">
+          <div className="bg-brand-600 text-white p-2 rounded-xl shadow-sm">
             <Activity className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xl font-bold font-display text-slate-900 leading-none block">Home Adaptations</span>
-            <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider block">UK Independent Living</span>
+            <span className="text-xl font-black font-display text-slate-900 leading-none block uppercase tracking-tight">Merseyside</span>
+            <span className="text-[11px] text-brand-600 font-bold uppercase tracking-widest block">Home Adaptations</span>
           </div>
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-1 font-medium text-slate-700" id="desktop-nav-bar">
-          <button
-            onClick={() => handleLinkClick('home')}
-            className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'home' ? 'text-brand-600 font-semibold' : ''}`}
-          >
-            Home
-          </button>
-
-          {/* Services Dropdown */}
-          <div className="relative">
+        <nav className="hidden lg:flex items-center space-x-6 font-bold text-sm text-slate-600" id="desktop-nav-bar">
+          {menuItems.map((item) => (
             <button
-              onMouseEnter={() => { setServicesDropdown(true); setCitiesDropdown(false); setHelpDropdown(false); }}
-              onClick={() => setServicesDropdown(!servicesDropdown)}
-              className={`px-3 py-2 flex items-center space-x-1 rounded-md hover:bg-slate-50 transition ${currentPage === 'services' || currentPage.startsWith('service-') ? 'text-brand-600 font-semibold' : ''}`}
+              key={item.page}
+              onClick={() => handleLinkClick(item.page)}
+              className={`hover:text-brand-600 transition-colors ${currentPage === item.page ? 'text-brand-600' : ''}`}
             >
-              <span>Our Services</span>
-              <ChevronDown className="w-4 h-4" />
+              {item.label}
             </button>
-            {servicesDropdown && (
-              <div 
-                className="absolute left-0 mt-1 w-72 bg-white rounded-lg shadow-xl ring-1 ring-black/5 divide-y divide-slate-100 p-2 z-50 border border-slate-100"
-                onMouseLeave={() => setServicesDropdown(false)}
-              >
-                <button
-                  onClick={() => handleLinkClick('services')}
-                  className="w-full text-left px-4 py-2 text-sm font-semibold text-brand-600 hover:bg-slate-50 rounded-md block mb-1"
-                >
-                  Services Overview
-                </button>
-                <div className="grid grid-cols-1 gap-1 pt-1">
-                  {allServices.map((service) => (
-                    <button
-                      key={service.id}
-                      onClick={() => handleLinkClick(`service-${service.id}`)}
-                      className="w-full text-left px-4 py-2 text-xs font-medium text-slate-800 hover:bg-brand-50 hover:text-brand-800 rounded-md truncate transition"
-                    >
-                      {service.title}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Funding & Help Dropdown */}
-          <div className="relative">
-            <button
-              onMouseEnter={() => { setHelpDropdown(true); setServicesDropdown(false); setCitiesDropdown(false); }}
-              onClick={() => setHelpDropdown(!helpDropdown)}
-              className={`px-3 py-2 flex items-center space-x-1 rounded-md hover:bg-slate-50 transition ${currentPage.startsWith('funding-') ? 'text-brand-600 font-semibold' : ''}`}
-            >
-              <span>Funding & Help</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            {helpDropdown && (
-              <div 
-                className="absolute left-0 mt-1 w-64 bg-white rounded-lg shadow-xl ring-1 ring-black/5 p-2 z-50 border border-slate-100"
-                onMouseLeave={() => setHelpDropdown(false)}
-              >
-                <button
-                  onClick={() => handleLinkClick('funding-dfg')}
-                  className="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800 rounded-md flex items-center space-x-2"
-                >
-                  <FileText className="w-4 h-4 text-brand-600" />
-                  <div>
-                    <p className="font-semibold block">Disabled Facilities Grant</p>
-                    <p className="text-[10px] text-slate-500 font-normal">Apply for up to £30k funding</p>
-                  </div>
-                </button>
-                <button
-                  onClick={() => handleLinkClick('funding-council-adaptations')}
-                  className="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800 rounded-md flex items-center space-x-2"
-                >
-                  <HelpCircle className="w-4 h-4 text-brand-600" />
-                  <div>
-                    <p className="font-semibold block">Minor Adaptations</p>
-                    <p className="text-[10px] text-slate-500 font-normal">Free assistance under £1,000</p>
-                  </div>
-                </button>
-                <button
-                  onClick={() => handleLinkClick('funding-ot-assessment')}
-                  className="w-full text-left px-4 py-2.5 text-xs font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-800 rounded-md flex items-center space-x-2"
-                >
-                  <Activity className="w-4 h-4 text-brand-600" />
-                  <div>
-                    <p className="font-semibold block">Free OT Assessment</p>
-                    <p className="text-[10px] text-slate-500 font-normal">Clinical safety evaluation</p>
-                  </div>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Local Help Dropdown */}
-          <div className="relative">
-            <button
-              onMouseEnter={() => { setCitiesDropdown(true); setServicesDropdown(false); setHelpDropdown(false); }}
-              onClick={() => setCitiesDropdown(!citiesDropdown)}
-              className={`px-3 py-2 flex items-center space-x-1 rounded-md hover:bg-slate-50 transition ${currentPage.startsWith('city-') ? 'text-brand-600 font-semibold' : ''}`}
-            >
-              <span>Local Support</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            {citiesDropdown && (
-              <div 
-                className="absolute right-0 mt-1 w-80 bg-white rounded-lg shadow-xl ring-1 ring-black/5 divide-y divide-slate-100 p-2 z-50 border border-slate-100"
-                onMouseLeave={() => setCitiesDropdown(false)}
-              >
-                <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Select Your UK City Areas
-                </div>
-                <div className="grid grid-cols-2 gap-1 pt-1 text-xs">
-                  {allCities.map((city) => (
-                    <button
-                      key={city.id}
-                      onClick={() => handleLinkClick(`city-${city.id}`)}
-                      className="w-full text-left px-3 py-2 font-medium text-slate-800 hover:bg-brand-50 hover:text-brand-800 rounded-md truncate transition flex items-center space-x-1"
-                    >
-                      <MapPin className="w-3.5 h-3.5 text-brand-500 shrink-0" />
-                      <span>{city.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={() => handleLinkClick('articles')}
-            className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'articles' || currentPage.startsWith('article-') ? 'text-brand-600 font-semibold' : ''}`}
-            id="nav-link-article-hub"
-          >
-            Article Hub
-          </button>
-
-          <button
-            onClick={() => handleLinkClick('contact')}
-            className={`px-3 py-2 rounded-md hover:bg-slate-50 transition ${currentPage === 'contact' ? 'text-brand-600 font-semibold' : ''}`}
-          >
-            Contact & Callback
-          </button>
+          ))}
         </nav>
 
-        {/* Action Button & Menu Toggles */}
-        <div className="flex items-center space-x-3">
-          {/* Quick Click-to-Call Link */}
+        {/* Action Button & Menu Toggle */}
+        <div className="flex items-center space-x-4">
           <a
             href="tel:+447899030990"
-            className="flex items-center space-x-2 bg-emerald-50 text-emerald-800 px-4 py-2 border border-emerald-200 rounded-full hover:bg-emerald-100 transition-smooth font-bold text-sm tracking-wide shadow-sm"
-            id="quick-call-link"
+            className="hidden md:flex items-center space-x-2 bg-emerald-50 text-emerald-800 px-5 py-2.5 rounded-full border border-emerald-100 hover:bg-emerald-100 transition-all font-black text-xs uppercase tracking-wider"
           >
-            <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="hidden sm:inline">Advice Line:</span>
-            <span>+44 78 990 30 990</span>
+            <Phone className="w-4 h-4 text-emerald-600" />
+            <span>07899 030 990</span>
           </a>
 
-          {/* Mobile Menu Icon */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-md"
+            className="lg:hidden p-2 text-slate-900 focus:outline-none"
             aria-expanded={isOpen}
-            id="mobile-menu-toggle-btn"
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -225,93 +83,27 @@ export default function Navigation({ currentPage, onNavigate, allServices, allCi
 
       {/* Mobile Navigation Panel */}
       {isOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-slate-50 px-4 pt-2 pb-6 space-y-3 shadow-inner max-h-[85vh] overflow-y-auto" id="mobile-nav-panel">
-          <div className="space-y-1">
-            <button
-              onClick={() => handleLinkClick('home')}
-              className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-200 block"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => handleLinkClick('services')}
-              className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-brand-600 hover:bg-slate-200 block"
-            >
-              Services Overview
-            </button>
-            <button
-              onClick={() => handleLinkClick('articles')}
-              className="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-slate-800 hover:bg-slate-200 block"
-              id="mobile-nav-link-article-hub"
-            >
-              Article Hub (20 Articles)
-            </button>
-          </div>
-
-          {/* Mobile Service Sub-menu */}
-          <div className="bg-white rounded-lg border border-slate-200 p-2">
-            <p className="px-3 py-1 text-xs font-bold uppercase text-slate-400 tracking-wider">Services</p>
-            <div className="grid grid-cols-2 gap-1 pt-1">
-              {allServices.map((service) => (
-                <button
-                  key={service.id}
-                  onClick={() => handleLinkClick(`service-${service.id}`)}
-                  className="text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md truncate"
-                >
-                  {service.title.split(' (')[0]}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Funding Sub-menu */}
-          <div className="bg-white rounded-lg border border-slate-200 p-2">
-            <p className="px-3 py-1 text-xs font-bold uppercase text-slate-400 tracking-wider">Funding Guides</p>
-            <div className="space-y-1 pt-1">
+        <div className="lg:hidden bg-white border-t border-slate-100 px-4 py-8 space-y-6 shadow-xl animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col space-y-4">
+            {menuItems.map((item) => (
               <button
-                onClick={() => handleLinkClick('funding-dfg')}
-                className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md block"
+                key={item.page}
+                onClick={() => handleLinkClick(item.page)}
+                className={`text-left text-lg font-bold ${currentPage === item.page ? 'text-brand-600' : 'text-slate-800'}`}
               >
-                Disabled Facilities Grant (DFG) Guide
+                {item.label}
               </button>
-              <button
-                onClick={() => handleLinkClick('funding-council-adaptations')}
-                className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md block"
-              >
-                Council Minor Adaptations Guide
-              </button>
-              <button
-                onClick={() => handleLinkClick('funding-ot-assessment')}
-                className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md block"
-              >
-                Occupational Therapist Assessment Step
-              </button>
-            </div>
+            ))}
           </div>
-
-          {/* Mobile Local Sub-menu */}
-          <div className="bg-white rounded-lg border border-slate-200 p-2">
-            <p className="px-3 py-1 text-xs font-bold uppercase text-slate-400 tracking-wider">Local Support Hubs</p>
-            <div className="grid grid-cols-2 gap-1 pt-1">
-              {allCities.map((city) => (
-                <button
-                  key={city.id}
-                  onClick={() => handleLinkClick(`city-${city.id}`)}
-                  className="text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md truncate flex items-center space-x-1"
-                >
-                  <MapPin className="w-3.5 h-3.5 text-brand-500 shrink-0" />
-                  <span>{city.name}</span>
-                </button>
-              ))}
-            </div>
+          <div className="pt-6 border-t border-slate-100">
+            <a
+              href="tel:+447899030990"
+              className="flex items-center justify-center space-x-2 bg-brand-600 text-white w-full py-4 rounded-xl font-bold text-sm shadow-lg shadow-brand-200"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Free Consultation: 07899 030 990</span>
+            </a>
           </div>
-
-          <button
-            onClick={() => handleLinkClick('contact')}
-            className="w-full text-center bg-brand-600 text-white font-bold py-3.5 rounded-lg text-sm hover:bg-brand-700 transition block"
-          >
-            Request Free Survey Callback
-          </button>
         </div>
       )}
     </header>

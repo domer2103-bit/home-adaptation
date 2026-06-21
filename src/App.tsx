@@ -36,13 +36,10 @@ import { ServiceId, Service, FundingGuide, CityData } from './types';
 import { servicesData } from './data/services';
 import { fundingGuidesData, generalFaqData } from './data/funding';
 import { citiesData } from './data/cities';
-import { articlesData, Article } from './data/articles';
 import Navigation from './components/Navigation';
 import CallbackForm from './components/CallbackForm';
 import LeadCalculator from './components/LeadCalculator';
 import Footer from './components/Footer';
-import ArticlesHub from './components/ArticlesHub';
-import ArticleDetail from './components/ArticleDetail';
 
 // Dynamic Icon Resolver Helper
 function getServiceIcon(iconName: string, className = "w-6 h-6 text-brand-600") {
@@ -83,49 +80,27 @@ export default function App() {
 
   // Handle document title & metadata injection dynamically for rich SEO feel
   useEffect(() => {
-    let title = 'Home Adaptations UK - Vetted Wet Rooms, Stairlifts & DFG Grants';
-    let metaDesc = 'Expert advice on Disabled Facilities Grants (DFG) and professional stairlift, wet room, wheelchair ramp, and bathroom adaptations across major UK cities.';
+    let title = 'Home Adaptations Merseyside | Walk-in Showers, Stairlifts & Ramps';
+    let metaDesc = 'Merseyside home adaptations for safer, easier living. We install walk-in showers, stairlifts, and access ramps across Liverpool, Wirral, Sefton, Knowsley and surrounding areas.';
 
     if (currentPage === 'services') {
-      title = 'Our Services - Bathroom & Home Mobility Adaptations';
+      title = 'Our Services - Walk-in Showers, Stairlifts & Access Ramps';
     } else if (currentPage.startsWith('service-')) {
       const srvId = currentPage.replace('service-', '') as ServiceId;
       const srv = servicesData.find(s => s.id === srvId);
       if (srv) {
-        title = `${srv.title} Installation Costs & Grants | Home Adaptations UK`;
+        title = `${srv.title} Merseyside | Specialist Installation & Grants`;
         metaDesc = srv.shortDesc;
       }
-    } else if (currentPage.startsWith('funding-')) {
-      const fId = currentPage.replace('funding-', '');
-      const guide = fundingGuidesData.find(g => g.id === fId);
-      if (guide) {
-        title = `${guide.title} UK Grant Guide | Home Adaptations`;
-        metaDesc = guide.shortDesc;
-      }
-    } else if (currentPage.startsWith('city-')) {
-      const cId = currentPage.replace('city-', '');
-      const city = citiesData.find(c => c.id === cId);
-      if (city) {
-        title = `Expert Home Adaptations in ${city.name} | Wet Rooms & Stairlifts`;
-        metaDesc = `Accredited stairlifts, wet rooms, and bathroom adjustments in ${city.name}, ${city.region}. Free ${city.councilName} OT helper guide.`;
-      }
-    } else if (currentPage === 'articles') {
-      title = 'UK Independent Living Advice & Articles Hub | Home Adaptations';
-      metaDesc = 'Read our 20 comprehensive home adaptation articles, guides, and costs breakdown for senior citizens, therapists, and disabled individuals in the UK.';
-    } else if (currentPage.startsWith('article-')) {
-      const artId = currentPage.replace('article-', '');
-      const article = articlesData.find(a => a.id === artId);
-      if (article) {
-        title = `${article.title} | UK Mobility Advice`;
-        metaDesc = article.shortDesc;
-      }
+    } else if (currentPage === 'areas') {
+      title = 'Service Areas | Liverpool, Wirral, Sefton & Merseyside Coverage';
+      metaDesc = 'We provide home adaptations across all Merseyside boroughs including Liverpool, Wirral, Sefton, Knowsley, St Helens, and West Lancashire.';
     } else if (currentPage === 'contact') {
-      title = 'Request Free Advisory Callback - Contact Home Adaptations UK';
+      title = 'Get a Free Quote | Merseyside Home Adaptations';
     }
 
     document.title = title;
 
-    // Dynamically inject/update meta description
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) {
       meta = document.createElement('meta');
@@ -143,24 +118,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans" id="app-viewport-root">
-      {/* Global High-contrast Navigation Header */}
+    <div className="min-h-screen flex flex-col font-sans selection:bg-brand-100 selection:text-brand-900" id="app-viewport-root">
       <Navigation
         currentPage={currentPage}
         onNavigate={handleNavigate}
         allServices={servicesData}
-        allCities={citiesData}
       />
 
-      {/* Main Page Area */}
       <main className="flex-1">
         {currentPage === 'home' && renderHome()}
-        {currentPage === 'services' && renderServicesOverview()}
         {currentPage.startsWith('service-') && renderServiceSubpage()}
-        {currentPage.startsWith('funding-') && renderFundingSubpage()}
-        {currentPage.startsWith('city-') && renderCitySubpage()}
-        {currentPage === 'articles' && renderArticlesHub()}
-        {currentPage.startsWith('article-') && renderArticleSubpage()}
+        {currentPage === 'areas' && renderAreasPage()}
         {currentPage === 'contact' && renderContactPage()}
       </main>
 
@@ -222,408 +190,151 @@ export default function App() {
   function renderHome() {
     return (
       <div id="home-page-container">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white min-h-[550px] flex items-center py-20 px-4 sm:px-6 lg:px-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.1),transparent_50%)]" />
-          <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Eradicating Bathroom & Staircase Slip Hazards</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-black font-display tracking-tight text-white leading-tight">
-                Empowering Independence with Home Adaptation for Disabled & Elderly
-              </h1>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
-                We simplify finding state-of-the-art stairlifts, flush wet rooms, worktop adjusters, and level entrance ramps. Check your eligibility for standard council funding grants up to <strong className="text-white">£30,000</strong>.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <button
-                  onClick={() => handleNavigate('contact')}
-                  className="bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-xl text-sm transition-smooth shadow-md flex items-center justify-center space-x-2 cursor-pointer focus:ring-4 focus:ring-blue-100"
-                >
-                  <span>Request Free Home Survey</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-                <a
-                  href="tel:+447899030990"
-                  className="bg-slate-800/80 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-sm border border-slate-700 transition duration-150 flex items-center justify-center space-x-2"
-                >
-                  <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Call: +44 78 990 30 990</span>
-                </a>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="pt-6 border-t border-slate-800 grid grid-cols-3 gap-4 text-xs font-semibold text-slate-400">
-                <div>
-                  <p className="text-base font-black text-emerald-400">★ 4.9/5</p>
-                  <p>Trustpilot Vetted</p>
-                </div>
-                <div>
-                  <p className="text-base font-black text-blue-400">0% VAT</p>
-                  <p>Disability Relief Check</p>
-                </div>
-                <div>
-                  <p className="text-base font-black text-indigo-400">100% Free</p>
-                  <p>Assessments & Advice</p>
-                </div>
-              </div>
+        {/* Section 1: Hero section */}
+        <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-brand-900 text-white py-20 px-4 sm:px-6 lg:px-8">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
+          <div className="relative max-w-7xl mx-auto text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl font-black font-display tracking-tight leading-tight max-w-4xl mx-auto">
+              Merseyside Home Adaptations for Safer, Easier Living
+            </h1>
+            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium">
+              Walk-in showers, stairlifts, and access ramps fitted by local specialists.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+              <button
+                onClick={() => handleNavigate('contact')}
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold px-10 py-4 rounded-xl text-sm transition-all shadow-xl shadow-brand-900/20 active:scale-95"
+              >
+                Get a Free Quote
+              </button>
+              <a
+                href="#eligibility"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold px-10 py-4 rounded-xl text-sm border border-white/20 transition-all active:scale-95 flex items-center justify-center"
+              >
+                Check My Eligibility
+              </a>
             </div>
-
-            {/* Right Callback Form Block */}
-            <div className="lg:col-span-5 bg-white p-1 rounded-2xl shadow-2xl">
-              <CallbackForm
-                allServices={servicesData}
-                onSubmitted={() => handleNavigate('contact', { autoSuccess: true })}
-              />
-            </div>
+            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest pt-2">
+              Serving Liverpool, Wirral, Sefton, Knowsley, and surrounding areas.
+            </p>
           </div>
         </section>
 
-        {/* Brand Core Trust Bar */}
-        <section className="bg-slate-900 border-y border-slate-800 text-slate-300 py-3 text-center text-xs font-bold leading-none select-none">
-          <div className="max-w-7xl mx-auto px-4 flex flex-wrap gap-y-2 items-center justify-center md:justify-around text-[11px] uppercase tracking-wider">
-            <span className="flex items-center space-x-1.5"><ShieldCheck className="w-4 h-4 text-brand-500 shrink-0" /> <span>UK Nationwide Vetted Engineers</span></span>
-            <span className="hidden md:inline text-slate-600">•</span>
-            <span className="flex items-center space-x-1.5"><Clock className="w-4 h-4 text-brand-500 shrink-0" /> <span>Local Callback Within 15 Mins</span></span>
-            <span className="hidden md:inline text-slate-600">•</span>
-            <span className="flex items-center space-x-1.5"><Coins className="w-4 h-4 text-emerald-400 shrink-0" /> <span>DFG Council Grant Support Checks</span></span>
-          </div>
-        </section>
-
-        {/* Interactive Eligibility & Cost Calculator (Drives massive user timing) */}
-        <section className="py-16 md:py-24 bg-white" id="calculator-lead-funnel">
+        {/* Section 2: Service blocks (3 cards) */}
+        <section className="py-24 bg-white" id="services">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold font-display text-slate-900 tracking-tight">Check Your Home Adaptation for Disabled Grant Eligibility</h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-2">Use our structured questionnaire to review potential UK council funding allowances and VAT relief exemptions instantly.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {servicesData.map((srv) => (
+                <div key={srv.id} className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:border-brand-200 transition-all hover:shadow-2xl hover:shadow-slate-200/50 group">
+                  <div className="bg-brand-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-brand-100 group-hover:scale-110 transition-transform">
+                    {getServiceIcon(srv.iconName, "w-7 h-7")}
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 mb-3">{srv.title}</h3>
+                  <p className="text-slate-600 mb-6 leading-relaxed">
+                    {srv.shortDesc}
+                  </p>
+                  <button
+                    onClick={() => handleNavigate(`service-${srv.id}`)}
+                    className="text-brand-600 font-bold text-sm flex items-center space-x-2 group-hover:space-x-3 transition-all"
+                  >
+                    <span>Learn more about {srv.id === 'walk-in-showers' ? 'walk-in showers' : srv.id === 'stairlifts' ? 'stairlifts' : 'ramps'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3: Why choose us */}
+        <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-600/5 blur-3xl rounded-full" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 className="text-3xl md:text-4xl font-black mb-16">Why Choose Us?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                "Local Merseyside coverage across Liverpool and surrounding boroughs.",
+                "Friendly advice and free home assessment.",
+                "Fast turnaround where possible and professional installation.",
+                "Adaptations tailored to your mobility needs and home layout."
+              ].map((point, i) => (
+                <div key={i} className="flex flex-col items-center space-y-4">
+                  <div className="bg-brand-500/10 p-3 rounded-full">
+                    <CheckCircle className="w-6 h-6 text-brand-400" />
+                  </div>
+                  <p className="text-slate-300 font-medium">{point}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4: Eligibility Tool */}
+        <section className="py-24 bg-slate-50" id="eligibility">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">Check Your Funding Eligibility</h2>
+              <p className="text-slate-600">Many Merseyside residents are entitled to local grants or VAT relief. Use our tool to find out what support you might be eligible for.</p>
             </div>
             <LeadCalculator
-              onSelectedAdaptation={(srvId) => handleNavigate(`service-${srvId}`)}
+              onSelectedAdaptation={(id) => handleNavigate(`service-${id}`)}
               onRequestCallback={() => handleNavigate('contact')}
             />
           </div>
         </section>
 
-        {/* Services Showcase (Grid) */}
-        <section className="py-16 md:py-24 bg-slate-50 border-t border-b border-slate-200" id="services-grid-showcase">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-              <div className="text-left max-w-xl">
-                <span className="text-xs font-extrabold uppercase text-brand-600 tracking-widest block mb-1">Safety-Assured Renovations</span>
-                <h2 className="text-2xl md:text-3.5xl font-semibold font-display text-slate-900 tracking-tight">Expert Home Adaptations & Wheelchair Adapted Home Solutions</h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-2">Engineered to standards set by the British Standard Code of Practice for Accessibility design (BS 8300).</p>
+        {/* Section 4: Process section (3 steps) */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-16">Our Simple Process</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+              <div className="hidden md:block absolute top-8 left-[25%] right-[25%] h-0.5 bg-slate-100" />
+              <div className="space-y-4 relative bg-white">
+                <div className="w-16 h-16 bg-brand-600 text-white rounded-full flex items-center justify-center mx-auto text-xl font-black shadow-lg shadow-brand-100">1</div>
+                <h3 className="text-lg font-bold text-slate-900">Tell us what you need</h3>
+                <p className="text-slate-500 text-sm">Contact us for a friendly chat about your home adaptation requirements.</p>
               </div>
-              <button
-                onClick={() => handleNavigate('services')}
-                className="mt-4 md:mt-0 text-brand-600 hover:text-brand-700 font-bold text-xs uppercase tracking-wider flex items-center space-x-1 shrink-0"
-              >
-                <span>Compare All services details</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {servicesData.slice(0, 6).map((srv) => (
-                <div key={srv.id} className="bg-white border border-slate-200/80 rounded-2xl shadow-sm hover:shadow-md transition-smooth flex flex-col justify-between group">
-                  <div className="p-6">
-                    <div className="bg-brand-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:bg-brand-600 group-hover:text-white transition duration-250">
-                      {getServiceIcon(srv.iconName, "w-6 h-6 text-brand-600 group-hover:text-white transition")}
-                    </div>
-                    <h3 className="text-lg font-bold font-display text-slate-900 mb-2">{srv.title}</h3>
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">{srv.shortDesc}</p>
-
-                    <div className="space-y-1.5 border-t border-slate-100 pt-3">
-                      <div className="flex justify-between text-[11px] font-semibold text-slate-500">
-                        <span>Approx. Timeline:</span>
-                        <span className="text-slate-800">{srv.installDays}</span>
-                      </div>
-                      <div className="flex justify-between text-[11px] font-semibold text-slate-500">
-                        <span>Typical Costing:</span>
-                        <span className="text-emerald-700 font-bold">{srv.averageCostRange}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-slate-100 p-4 bg-slate-50/50 rounded-b-2xl flex justify-between items-center">
-                    <button
-                      onClick={() => handleNavigate(`service-${srv.id}`)}
-                      className="text-[11px] font-extrabold text-brand-600 hover:text-brand-800 tracking-wider uppercase block"
-                    >
-                      Full Costing Details
-                    </button>
-                    <button
-                      onClick={() => handleNavigate('contact', { service: srv.id })}
-                      className="text-[11px] font-bold text-slate-500 hover:text-slate-900 flex items-center space-x-0.5"
-                    >
-                      <span>Query Quote</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works (4 Clean Steps) */}
-        <section className="py-16 md:py-24 bg-white" id="how-it-works-process">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-xs font-extrabold uppercase text-brand-600 tracking-widest block mb-1">Streamlined Customer Journey</span>
-              <h2 className="text-2xl md:text-3.5xl font-bold font-display text-slate-900 tracking-tight">Your Path to Safe, Independent Living</h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-2">From original advisor callback to final council sign-off, we manage the technical stress for you.</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-              <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-0.5 bg-slate-150 -z-10" />
-
-              <div className="text-center space-y-3">
-                <div className="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center mx-auto text-brand-600 font-bold text-lg border border-brand-100 shadow-sm">1</div>
-                <h3 className="text-sm font-bold text-slate-800">1. Free Advice Call</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">Book a consultation callback. We examine clinical issues, explain councils budgets, and review immediate 20% VAT relief schemes.</p>
+              <div className="space-y-4 relative bg-white">
+                <div className="w-16 h-16 bg-brand-600 text-white rounded-full flex items-center justify-center mx-auto text-xl font-black shadow-lg shadow-brand-100">2</div>
+                <h3 className="text-lg font-bold text-slate-900">We assess your home</h3>
+                <p className="text-slate-500 text-sm">We visit your home to recommend the best options for your unique layout.</p>
               </div>
-
-              <div className="text-center space-y-3">
-                <div className="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center mx-auto text-brand-600 font-bold text-lg border border-brand-100 shadow-sm">2</div>
-                <h3 className="text-sm font-bold text-slate-800">2. Free Home Assessment</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">An approved, fully insured structural surveyor visits to evaluate stairs, bathrooms, doorway structures and confirm feasibility.</p>
-              </div>
-
-              <div className="text-center space-y-3">
-                <div className="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center mx-auto text-brand-600 font-bold text-lg border border-brand-100 shadow-sm">3</div>
-                <h3 className="text-sm font-bold text-slate-800">3. Grant Processing</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">We provide complete detailed quotes matching council templates, assisting you in submitting clear OT recommendations to land your grant.</p>
-              </div>
-
-              <div className="text-center space-y-3">
-                <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600 font-bold text-lg border border-emerald-100 shadow-sm">4</div>
-                <h3 className="text-sm font-bold text-slate-800">4. Clean Installation</h3>
-                <p className="text-xs text-slate-500 leading-relaxed">Our qualified local tradespeople install your wet-room, stairlift, or doorway frame. Backed by durable 3-year performance guarantees.</p>
+              <div className="space-y-4 relative bg-white">
+                <div className="w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto text-xl font-black shadow-lg shadow-emerald-100">3</div>
+                <h3 className="text-lg font-bold text-slate-900">We fit the adaptation</h3>
+                <p className="text-slate-500 text-sm">Our local specialists install your new adaptation and finish the job to the highest standard.</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Why Choose Us & Funding Spotlight */}
-        <section className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden" id="funding-spotlight-banner">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(37,99,235,0.08),transparent_40%)]" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-            {/* Left Column Content */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs font-extrabold uppercase text-brand-450 tracking-wider flex items-center space-x-1.5">
-                <Heart className="w-4 h-4 text-rose-500" />
-                <span>Caring for UK Communities</span>
-              </span>
-              <h2 className="text-2xl md:text-3.5xl font-black font-display tracking-tight leading-tight">
-                Disabled Facilities Grants (DFG) Explained Simply
-              </h2>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Many elderly and chronic-ill residents feel intimidated trying to claim government grants. Our advisors hold years of expertise acting as helpful liaisons between local councils, social service teams, and client households.
-              </p>
-
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <span className="bg-brand-500 text-white rounded-full p-1 mr-3 shrink-0"><Check className="w-3.5 h-3.5" /></span>
-                  <div>
-                    <h4 className="text-xs font-bold font-display text-white">English caps reach £30,000</h4>
-                    <p className="text-[11px] text-slate-400">Can be fully matched against complete bathing and moving adjusters.</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="bg-brand-500 text-white rounded-full p-1 mr-3 shrink-0"><Check className="w-3.5 h-3.5" /></span>
-                  <div>
-                    <h4 className="text-xs font-bold font-display text-white">Doesn't impact standard state benefits</h4>
-                    <p className="text-[11px] text-slate-400">Claims do not undermine PIP, pensions, attendance supports, or tax credits.</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="bg-emerald-500 text-white rounded-full p-1 mr-3 shrink-0"><Check className="w-3.5 h-3.5" /></span>
-                  <div>
-                    <h4 className="text-xs font-bold font-display text-white">Free council assessments for children</h4>
-                    <p className="text-[11px] text-slate-400">Applications filed for minors under 19 are completely exempt from financial means-testing.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  onClick={() => handleNavigate('funding-dfg')}
-                  className="bg-white text-slate-900 hover:bg-slate-100 font-bold px-6 py-3 rounded-lg text-xs leading-none transition-smooth shadow cursor-pointer uppercase tracking-wider"
-                >
-                  Read Comprehensive Funding Guide
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column Highlights Checkboard */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-slate-800/60 p-5 rounded-2xl border border-slate-800">
-                <span className="bg-blue-500/10 p-2 text-blue-400 rounded-lg inline-block mb-3"><Award className="w-5 h-5" /></span>
-                <h3 className="text-sm font-bold text-white mb-2">3-Year Work Warranty</h3>
-                <p className="text-[11px] text-slate-400 leading-relaxed">Every wet-room plumbing joint, stairlift drive assembly, and structural ramp supports are covered by zero-deductible installation insurance.</p>
-              </div>
-
-              <div className="bg-slate-800/60 p-5 rounded-2xl border border-slate-800">
-                <span className="bg-emerald-500/10 p-2 text-emerald-400 rounded-lg inline-block mb-3"><ShieldCheck className="w-5 h-5" /></span>
-                <h3 className="text-sm font-bold text-white mb-2">VAT Exempt Support</h3>
-                <p className="text-[11px] text-slate-400 leading-relaxed">Saves you 20% on overall bills natively if living with chronic illnesses (dementia, arthritis, heart issues) or mobility limits.</p>
-              </div>
-
-              <div className="bg-slate-800/60 p-5 rounded-2xl border border-slate-800">
-                <span className="bg-purple-500/10 p-2 text-purple-400 rounded-lg inline-block mb-3"><MapPin className="w-5 h-5" /></span>
-                <h3 className="text-sm font-bold text-white mb-2">Local UK Hub Network</h3>
-                <p className="text-[11px] text-slate-400 leading-relaxed">Quick regional engineers based around your city, reducing travel charges and ensuring responsive emergency upkeep care.</p>
-              </div>
-
-              <div className="bg-slate-800/60 p-5 rounded-2xl border border-slate-800">
-                <span className="bg-amber-500/10 p-2 text-amber-400 rounded-lg inline-block mb-3"><Clock className="w-5 h-5" /></span>
-                <h4 className="text-sm font-bold text-white mb-2">Dignified Fitting Process</h4>
-                <p className="text-[11px] text-slate-400 leading-relaxed">Vetted installers respect carpets, clean up debris, and carry mandatory CRB and DBS background clearance checks.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Local Coverage Section */}
-        <section className="py-16 bg-slate-50 border-y border-slate-200" id="locality-directory">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <h2 className="text-2xl font-bold font-display text-slate-900 tracking-tight">Active Regional Advice Coverage</h2>
-              <p className="text-xs text-slate-500 mt-2">Our certified partners coordinate directly with social work hubs, independent occupational therapists and county planners in these primary regions:</p>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {citiesData.map((city) => (
-                <button
-                  key={city.id}
-                  onClick={() => handleNavigate(`city-${city.id}`)}
-                  className="bg-white border border-slate-200 rounded-xl p-4 text-left hover:border-brand-600 hover:bg-brand-50/20 transition group flex flex-col justify-between"
-                >
-                  <div>
-                    <span className="text-xs text-slate-400 font-bold block">{city.region}</span>
-                    <span className="text-sm font-extrabold text-slate-900 block mt-1 group-hover:text-brand-700">{city.name}</span>
-                  </div>
-                  <span className="text-[10px] text-brand-600 font-bold mt-2 hover:underline block">Local Desk Info →</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Real Testimonials */}
-        <section className="py-16 md:py-24 bg-white" id="customer-reviews">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <p className="text-xs font-extrabold text-brand-600 uppercase tracking-widest block mb-1">Authentic UK Feedback</p>
-              <h2 className="text-2xl md:text-3.5xl font-bold font-display text-slate-900 tracking-tight">Trustpilot Quality Checked Stories</h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Review 1 */}
-              <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl relative">
-                <div className="text-amber-500 text-sm font-bold mb-3">★ ★ ★ ★ ★</div>
-                <blockquote className="text-xs text-slate-600 leading-relaxed italic mb-4">
-                  "Absolutely stellar service from start to finish. Mum was struggling severely climbing her straight stairs in Altrincham. Our advisor helped coordinate an OT assessment report and mapped a beautiful straight stairlift that folding flat. Fitted in 4 hours on a Tuesday, completely changing Mum's confidence."
-                </blockquote>
-                <div className="flex items-center space-x-2">
-                  <div className="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-slate-700 text-xs">SM</div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-800">Sarah Mercer</h4>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase">Altrincham, Manchester • Stairlift</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Review 2 */}
-              <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl relative">
-                <div className="text-amber-500 text-sm font-bold mb-3">★ ★ ★ ★ ★</div>
-                <blockquote className="text-xs text-slate-600 leading-relaxed italic mb-4">
-                  "I qualify for VAT exemption due to MS. The engineers designed a level entry shower screen with built-in grab rails in our Croydon family home. Clean, quick, completely non-slip floor. Plus helped us prepare the paperwork. 20% savings were instantly subtracted."
-                </blockquote>
-                <div className="flex items-center space-x-2">
-                  <div className="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-slate-700 text-xs">AH</div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-800">Arthur Hughes</h4>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase">Croydon, London • Walk-in Shower</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Review 3 */}
-              <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl relative">
-                <div className="text-amber-500 text-sm font-bold mb-3">★ ★ ★ ★ ★</div>
-                <blockquote className="text-xs text-slate-600 leading-relaxed italic mb-4">
-                  "High-quality experience setting up modular ramping and door widening for our dad's walker entry in Solihull. Fast, galvanized steel structure drain rain nicely without pooling or sliding. Recommended for any disabled household arrangements."
-                </blockquote>
-                <div className="flex items-center space-x-2">
-                  <div className="bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-slate-700 text-xs">RE</div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-800">Richard Evans</h4>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase">Solihull, Birmingham • Ramping</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Concise FAQ Area in Home */}
-        <section className="py-16 md:py-24 bg-slate-50 border-t border-slate-200" id="homepage-faq-accordions">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3.5xl font-semibold font-display text-slate-900 tracking-tight">Adaptation Funding FAQs</h2>
-              <p className="text-xs text-slate-500 mt-2">Answers to key questions from UK households arranging safety modifications.</p>
-            </div>
-
-            <div className="space-y-4">
-              {generalFaqData.slice(0, 4).map((faq, idx) => (
-                <div key={idx} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                  <h3 className="text-sm font-bold text-slate-900 mb-2 flex items-start">
-                    <span className="text-brand-600 mr-2">Q:</span>
-                    <span>{faq.q}</span>
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed pl-6 border-l border-brand-200">{faq.a}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <button
-                onClick={() => handleNavigate('funding-dfg')}
-                className="text-brand-600 hover:text-brand-800 text-xs font-bold underline"
-              >
-                View all funding and eligibility queries →
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA Banner */}
-        <section className="bg-slate-950 py-16 text-center text-white relative overflow-hidden" id="final-lead-cta">
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-blue-950/20 to-transparent" />
-          <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-6">
-            <h2 className="text-3xl md:text-4xl font-extrabold font-display leading-tight">Ready to Secure Safe Independent Bathing & Living?</h2>
-            <p className="text-slate-300 text-sm max-w-xl mx-auto">
-              Our advice service is completely free, carries zero obligation, and provides direct access to accredited local installer schedules.
+        {/* Section 5: Local area section */}
+        <section className="py-20 bg-slate-50 border-y border-slate-100">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl font-black text-slate-900 mb-6">Local Merseyside Experts</h2>
+            <p className="text-lg text-slate-600 leading-relaxed">
+              We serve <span className="font-bold text-brand-600">Liverpool, Wirral, Sefton, Knowsley, St Helens, and West Lancashire</span>. Being local means we can respond quickly and provide tailored support for our community.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button
-                onClick={() => handleNavigate('contact')}
-                className="bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-3.5 rounded-xl text-xs uppercase tracking-wider transition-smooth cursor-pointer"
-              >
-                Configure Your Free Home Survey
-              </button>
-              <a
-                href="tel:+447899030990"
-                className="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-8 py-3.5 rounded-xl text-xs transition duration-150 border border-slate-700 flex items-center justify-center space-x-1"
-              >
-                <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Advice Helpline: +44 78 990 30 990</span>
-              </a>
+            <button
+              onClick={() => handleNavigate('areas')}
+              className="mt-8 text-brand-600 font-bold underline decoration-2 underline-offset-4"
+            >
+              See all areas we cover
+            </button>
+          </div>
+        </section>
+
+        {/* Section 6: FAQ section */}
+        <section className="py-24 bg-white" id="faqs">
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 className="text-3xl font-black text-slate-900 text-center mb-12">Frequently Asked Questions</h2>
+            <div className="space-y-4">
+              {generalFaqData.map((faq, idx) => (
+                <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:bg-slate-100 transition-colors">
+                  <h3 className="text-base font-bold text-slate-900 mb-3">{faq.q}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -631,78 +342,55 @@ export default function App() {
     );
   }
 
-  // 2. SERVICES OVERVIEW PAGE
-  function renderServicesOverview() {
+  // AREAS WE COVER PAGE
+  function renderAreasPage() {
     return (
-      <div className="bg-white py-12 md:py-20" id="services-overview-panel">
+      <div className="py-20 bg-white" id="areas-page">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-extrabold uppercase text-brand-600 tracking-wider block mb-1">Mobility & Accessibility Solutions</span>
-            <h1 className="text-3xl font-black font-display text-slate-900 tracking-tight sm:text-4xl">Our Complete Range of Home Adaptations</h1>
-            <p className="text-sm text-slate-500 mt-2">Highly robust, clinical-grade improvements installed across the UK to help seniors and disabled citizens live comfortably.</p>
+          <div className="text-center mb-16">
+            <h1 className="text-3xl font-black text-slate-900 mb-4">Areas We Cover Across Merseyside</h1>
+            <p className="text-slate-600 max-w-2xl mx-auto italic">
+              "Friendly, reliable home adaptations from a local team you can trust."
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {servicesData.map((srv) => (
-              <div
-                key={srv.id}
-                className="border border-slate-200 rounded-2xl p-6 md:p-8 hover:border-brand-600 transition duration-150 shadow-sm flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="bg-brand-50 p-3 rounded-lg text-brand-600 shrink-0">
-                      {getServiceIcon(srv.iconName, "w-7 h-7")}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold font-display text-slate-900 leading-tight">{srv.title}</h3>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Install Speed: {srv.installDays}</span>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-slate-600 leading-relaxed mb-6">
-                    {srv.description}
-                  </p>
-
-                  <div className="mb-6 bg-slate-50 p-4 rounded-xl space-y-2 border border-slate-100">
-                    <p className="text-xs font-bold text-slate-700">Immediate Benefits Checklist:</p>
-                    <ul className="space-y-1.5">
-                      {srv.benefits.map((b, i) => (
-                        <li key={i} className="flex items-start text-xs text-slate-600">
-                          <Check className="w-3.5 h-3.5 text-emerald-600 mr-2 shrink-0 mt-0.5" />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="border-t border-slate-150 pt-5 flex flex-wrap justify-between items-center gap-4">
-                  <div>
-                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Approximate Cost Matrix:</p>
-                    <p className="text-sm font-extrabold text-emerald-800">{srv.averageCostRange}</p>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleNavigate(`service-${srv.id}`)}
-                      className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-lg text-xs leading-none transition"
-                    >
-                      Detailed Guide
-                    </button>
-                    <button
-                      onClick={() => handleNavigate('contact', { service: srv.id })}
-                      className="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2 rounded-lg text-xs leading-none transition shadow-sm"
-                    >
-                      Query Callback
-                    </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {citiesData.map((city) => (
+              <div key={city.id} className="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                <h3 className="text-xl font-bold text-brand-600 mb-4">{city.name}</h3>
+                <p className="text-sm text-slate-600 mb-6 leading-relaxed">{city.localIntro}</p>
+                <div className="space-y-2">
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Postcodes & Local Areas:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {city.areaCoverage.map((area, i) => (
+                      <span key={i} className="bg-white px-3 py-1 rounded-full text-xs font-medium text-slate-700 border border-slate-200">
+                        {area}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          <div className="mt-16 bg-brand-600 rounded-3xl p-8 md:p-12 text-center text-white">
+            <h2 className="text-2xl md:text-3xl font-black mb-6">Not sure if we cover your area?</h2>
+            <p className="mb-8 opacity-90 max-w-xl mx-auto">We are expanding rapidly and can often help in the surrounding West Lancashire and Cheshire areas too.</p>
+            <button
+              onClick={() => handleNavigate('contact')}
+              className="bg-white text-brand-600 font-bold px-10 py-4 rounded-xl text-sm transition-all shadow-xl active:scale-95"
+            >
+              Contact Us to Check
+            </button>
+          </div>
         </div>
       </div>
     );
   }
+
+
+  // 2. SERVICES OVERVIEW PAGE
+
 
   // 3. INDIVIDUAL SERVICE PAGES WITH AUTOMATED FORMS
   function renderServiceSubpage() {
@@ -724,8 +412,6 @@ export default function App() {
           {/* Breadcrumb path for SEO */}
           <nav className="text-xs font-semibold text-slate-500 mb-8 flex items-center space-x-1" aria-label="Breadcrumb">
             <button onClick={() => handleNavigate('home')} className="hover:text-brand-600">Home</button>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <button onClick={() => handleNavigate('services')} className="hover:text-brand-600">Services</button>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-slate-900 font-bold text-nowrap">{srv.title}</span>
           </nav>
@@ -835,278 +521,7 @@ export default function App() {
   }
 
   // 4. FUNDING & HELP PAGES
-  function renderFundingSubpage() {
-    const fId = currentPage.replace('funding-', '');
-    const guide = fundingGuidesData.find(g => g.id === fId);
 
-    if (!guide) {
-      return (
-        <div className="py-20 text-center text-slate-500">
-          <p>The requested UK funding guide could not be located.</p>
-          <button onClick={() => handleNavigate('home')} className="mt-4 text-brand-600 font-bold underline">Return Home</button>
-        </div>
-      );
-    }
-
-    return (
-      <div className="bg-white py-12 md:py-20" id={`funding-page-${guide.id}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-xs font-semibold text-slate-500 mb-8 flex items-center space-x-1" aria-label="Breadcrumbs">
-            <button onClick={() => handleNavigate('home')} className="hover:text-brand-600">Home</button>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-slate-900 font-bold">{guide.title}</span>
-          </nav>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-8 space-y-8">
-              <div className="space-y-4">
-                <span className="bg-emerald-50/80 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest inline-block">UK Funding Guide Directory</span>
-                <h1 className="text-3xl font-black font-display text-slate-950 sm:text-4.5xl leading-tight">{guide.title}</h1>
-                <p className="text-slate-700 text-sm leading-relaxed font-semibold">
-                  {guide.shortDesc}
-                </p>
-              </div>
-
-              <div className="prose max-w-none text-xs sm:text-sm text-slate-600 space-y-4 leading-normal border-t border-slate-100 pt-6">
-                <p>{guide.description}</p>
-              </div>
-
-              {/* Eligibility checklist */}
-              <div className="bg-amber-50/50 border border-amber-200 rounded-2xl p-6 md:p-8">
-                <h3 className="text-sm font-extrabold text-amber-950 uppercase tracking-widest mb-4 flex items-center space-x-2">
-                  <ShieldAlert className="w-5 h-5 text-amber-600" />
-                  <span>Funding Eligibility Criteria Checklist:</span>
-                </h3>
-                <ul className="space-y-3 text-xs text-slate-700 leading-normal">
-                  {guide.eligibilityRules.map((rule, idx) => (
-                    <li key={idx} className="flex items-start">
-                      <span className="text-amber-600 text-lg mr-2 shrink-0 leading-none">✓</span>
-                      <span>{rule}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Journey Steps */}
-              <div className="space-y-4 pt-4">
-                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-widest flex items-center space-x-2">
-                  <Landmark className="w-5 h-5 text-brand-600" />
-                  <span>The Application Progression Steps:</span>
-                </h3>
-                <div className="space-y-4">
-                  {guide.applicationSteps.map((step, idx) => (
-                    <div key={idx} className="flex items-start bg-slate-50 border border-slate-200 rounded-xl p-4">
-                      <span className="w-6 h-6 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mr-4 mt-0.5">
-                        {idx + 1}
-                      </span>
-                      <div>
-                        <p className="text-xs text-slate-700 font-semibold leading-relaxed">{step}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Frequently Asked Qs in guide */}
-              <div className="space-y-6 pt-8 border-t border-slate-150">
-                <h3 className="text-lg font-bold font-display text-slate-900">Guide Q&As</h3>
-                <div className="space-y-4">
-                  {guide.frequentlyAsked.map((faq, idx) => (
-                    <div key={idx} className="bg-slate-50 p-5 rounded-xl border border-slate-200">
-                      <h4 className="text-sm font-bold text-slate-900 mb-2">{faq.q}</h4>
-                      <p className="text-xs text-slate-600 leading-normal">{faq.a}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Form column */}
-            <div className="lg:col-span-4">
-              <div className="sticky top-24 space-y-6">
-                <CallbackForm
-                  allServices={servicesData}
-                  onSubmitted={() => handleNavigate('contact', { autoSuccess: true })}
-                />
-                
-                {/* Independent Therapist link block */}
-                <div className="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-brand-400">Avoid Long Council Wait Times</h4>
-                  <p className="text-[11px] text-slate-350 leading-relaxed">
-                    Local councils can occasionally carry 3 to 9 month waiting lists simply to assign an Occupational Therapist to visit. We can advise on how to hire a fast-track Clinical Independent OT whose assessment reports are fully recognized for DFG processing.
-                  </p>
-                  <button 
-                    onClick={() => handleNavigate('contact')}
-                    className="text-xs text-emerald-400 font-bold hover:underline"
-                  >
-                    Discuss fast-track OTs →
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 5. LOCAL LANDING PAGE TEMPLATE WITH CITY DETAILS
-  function renderCitySubpage() {
-    const cId = currentPage.replace('city-', '');
-    const city = citiesData.find(c => c.id === cId);
-
-    if (!city) {
-      return (
-        <div className="py-20 text-center text-slate-500">
-          <p>The selected UK local support directory could not be located.</p>
-          <button onClick={() => handleNavigate('home')} className="mt-4 text-brand-600 font-bold underline">Return Home</button>
-        </div>
-      );
-    }
-
-    return (
-      <div className="bg-white py-12 md:py-20" id={`local-city-landing-${city.id}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="text-xs font-semibold text-slate-500 mb-8 flex items-center space-x-1" aria-label="Breadcrumb">
-            <button onClick={() => handleNavigate('home')} className="hover:text-brand-600">Home</button>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-slate-900 font-bold">Local Support for {city.name}</span>
-          </nav>
-
-          {/* Heading with localized H1 & map badges */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 text-white rounded-3xl p-6 md:p-12 mb-12 shadow-md relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl -z-10" />
-            <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center space-x-1.5 bg-brand-500/15 text-brand-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>Geographical Coverage Desk for {city.region}</span>
-              </div>
-              <h1 className="text-3xl font-black font-display text-white tracking-tight sm:text-4.5xl leading-tight">
-                Vetted Home Adaptations in {city.name} - Senior wet-rooms, stairlifts & ramps
-              </h1>
-              <p className="text-slate-300 text-sm leading-relaxed max-w-2xl">
-                {city.localIntro}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-8 space-y-10">
-              
-              {/* Local Trust & Council advice team details */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 md:p-8 space-y-4">
-                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-widest flex items-center space-x-2">
-                  <ShieldCheck className="w-5 h-5 text-brand-600" />
-                  <span>Local Council Social Care Direct Line - Helpdesk:</span>
-                </h3>
-                <p className="text-xs text-slate-650 leading-relaxed">
-                  If you reside under the <strong>{city.name}</strong> catchment, your adaptation funding allocations and OT assessments are supervised by standard social workers. You can call their care desk directly to submit a referral:
-                </p>
-
-                <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] text-slate-400 font-bold block uppercase">Social Services Referrals Office</span>
-                    <strong className="text-sm text-slate-800 font-display block">{city.councilName} Adaptations Team</strong>
-                  </div>
-                  <a
-                    href={`tel:${city.councilOtPhone.replace(/\s+/g, '')}`}
-                    className="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold py-2.5 px-5 rounded-lg text-center flex items-center justify-center space-x-1.5 shrink-0"
-                  >
-                    <Phone className="w-3.5 h-3.5 shrink-0" />
-                    <span>DIAL: {city.councilOtPhone}</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Local Case Study Section (Solves thin/duplicate content) */}
-              <div className="bg-emerald-50/40 border border-emerald-150 rounded-2xl p-6 md:p-8 space-y-4">
-                <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide inline-block">Local Project Snapshot</span>
-                <h3 className="text-lg font-bold font-display text-emerald-950">{city.caseStudyTitle}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed italic">
-                  "{city.caseStudyDesc}"
-                </p>
-                <div className="flex items-center space-x-2 text-[11px] text-slate-500 font-semibold uppercase">
-                  <span>★ Vetted Quality Checks Certified</span>
-                  <span>•</span>
-                  <span>Complies with UK Building Directives</span>
-                </div>
-              </div>
-
-              {/* Specific covered areas checklist */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-widest">Postcodes & Towns Vetted Near {city.name}:</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Our regional engineering teams complete clean daily travels to these surrounding sub-districts and boroughs around the West/East/South ranges:
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-55 p-4 rounded-xl border border-slate-200">
-                  {city.areaCoverage.map((area, idx) => (
-                    <div key={idx} className="flex items-center space-x-2 text-xs text-slate-700 font-medium">
-                      <span className="text-brand-500 shrink-0">•</span>
-                      <span>{area}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Service List tailored internally */}
-              <div className="space-y-6 pt-6 border-t border-slate-150">
-                <h3 className="text-lg font-bold font-display text-slate-900">Adaptations Offered in {city.name}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {servicesData.slice(0, 4).map(s => (
-                    <div key={s.id} className="border border-slate-200 rounded-xl p-4 hover:border-brand-600 transition-all flex flex-col justify-between">
-                      <div>
-                        <h4 className="text-sm font-bold text-slate-900">{s.title.split(' (')[0]}</h4>
-                        <p className="text-xs text-slate-500 mt-1 line-clamp-2">{s.shortDesc}</p>
-                      </div>
-                      <button
-                        onClick={() => handleNavigate(`service-${s.id}`)}
-                        className="text-[10px] text-brand-600 font-extrabold uppercase tracking-wider mt-3 text-left"
-                      >
-                        Costs & Lead guides →
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Callback Form Sidebar */}
-            <div className="lg:col-span-4">
-              <div className="sticky top-24 select-none">
-                <CallbackForm
-                  title={`Request Callback in ${city.name}`}
-                  subtitle={`Arrange a swift free home assessment with our representative visiting the wider ${city.region} district.`}
-                  allServices={servicesData}
-                  onSubmitted={() => handleNavigate('contact', { autoSuccess: true })}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 5.5. ARTICLES LIST PAGE
-  function renderArticlesHub() {
-    return (
-      <ArticlesHub 
-        articles={articlesData}
-        onNavigate={handleNavigate}
-      />
-    );
-  }
-
-  // 5.6. ARTICLE SUBPAGE DETAIL READER
-  function renderArticleSubpage() {
-    const artId = currentPage.replace('article-', '');
-    return (
-      <ArticleDetail 
-        articleId={artId}
-        onNavigate={handleNavigate}
-      />
-    );
-  }
 
   // 6. CONTACT PAGE
   function renderContactPage() {
