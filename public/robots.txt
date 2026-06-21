@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Note: Once the site is live, add the sitemap link below
+# Sitemap: https://yourdomain.com/sitemap.xml
