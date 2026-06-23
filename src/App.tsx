@@ -37,7 +37,7 @@ import { servicesData } from './data/services';
 import { fundingGuidesData, generalFaqData } from './data/funding';
 import { citiesData } from './data/cities';
 import Navigation from './components/Navigation';
-import CallbackForm from './components/CallbackForm';
+import ContactForm from './components/ContactForm';
 import LeadCalculator from './components/LeadCalculator';
 import Footer from './components/Footer';
 
@@ -505,12 +505,8 @@ export default function App() {
             {/* Sticky Form Column */}
             <div className="lg:col-span-4 select-none">
               <div className="sticky top-24">
-                <CallbackForm
-                  initialServiceId={srv.id}
-                  title={`Query a ${srv.title.split(' (')[0]} Quote`}
-                  subtitle={`Request a free, no-obligation home feasibility assessment from an accredited surveyor in your postcode area.`}
-                  allServices={servicesData}
-                  onSubmitted={() => handleNavigate('contact', { autoSuccess: true })}
+                <ContactForm
+                  initialServiceId={srv.id === 'walk-in-showers' ? 'Walk-in shower' : srv.id === 'stairlifts' ? 'Stairlift' : srv.id === 'ramps' ? 'Ramp' : 'Other'}
                 />
               </div>
             </div>
@@ -586,11 +582,7 @@ export default function App() {
 
             {/* High Conversion Form Column */}
             <div className="lg:col-span-6 bg-white select-none">
-              <CallbackForm
-                allServices={servicesData}
-                title="Arrange Your Free Priority Callback Consultation"
-                subtitle="Your information is protected under UK GDPR. Vetted advisers will call back to discuss local surveyor availability."
-              />
+              <ContactForm />
             </div>
           </div>
         </div>
